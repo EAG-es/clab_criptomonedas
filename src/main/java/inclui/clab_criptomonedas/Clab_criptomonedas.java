@@ -18,7 +18,6 @@ import static innui.formularios.controles.k_opciones_mapa_no_requerido;
 import innui.modelos.configuraciones.ResourceBundles;
 import innui.modelos.configuraciones.iniciales;
 import innui.modelos.errores.oks;
-import innui.modelos.errores.patrones;
 import innui.modelos.internacionalizacion.tr;
 import innui.modelos.jdbc.sql_comandos;
 import static innui.modelos.jdbc.sql_comandos.k_sql_comandos_marcador_columnas_lista_error;
@@ -27,10 +26,7 @@ import innui.modelos.modelos_comunicaciones.modelos_comunicaciones;
 import innui.modelos.tipos_valores;
 import static java.lang.System.exit;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Time;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -75,10 +71,6 @@ public class Clab_criptomonedas extends iniciales {
     public static String k_insercion_clave_enviar = "insercion_clave_envair";
     public static String k_borrado_clave_fila_num = "borrado_clave_fila_num";
     public static String k_borrado_clave_confirmar = "borrado_clave_confirmar";
-    public static String k_formato_date = "%1$td/%1$tm/%1$ty %1$tT";
-    public static String k_formato_time = "%1$tT";
-    public static String k_formato_numero = "%1$,15d";
-    public static String k_formato_decimal = "%1$,15.2f";
     public static String k_columna_cuenta_tex = "cuenta";
     public String url;
     public String driver;
@@ -921,7 +913,7 @@ public class Clab_criptomonedas extends iniciales {
             for (LinkedHashMap<String, tipos_valores> columnas_mapa: filas_lista) {
                 retorno_columnas_mapa = new LinkedHashMap<>();
                 for (Entry<String,tipos_valores> entry: columnas_mapa.entrySet()) {
-                    texto = _pasar_a_texto_segun_tipo(entry.getValue(), ok);
+                    texto = entry.getValue().pasar_a_texto_segun_tipo(ok);
                     if (ok.es == false) { break; }
                     retorno_columnas_mapa.put(entry.getKey(), texto);
                 }
@@ -950,94 +942,5 @@ public class Clab_criptomonedas extends iniciales {
             ok.setTxt(e);
         }
         return ok.es;
-    }
-    /**
-     * Pasa a texto el dato.
-     * @param tipo_valor
-     * @param ok
-     * @param extra_array
-     * @return
-     * @throws Exception 
-     */
-    public String _pasar_a_texto_segun_tipo(tipos_valores tipo_valor, oks ok, Object... extra_array) throws Exception {
-        if (ok.es == false) { return null; }
-        String retorno = null;
-        try {
-            String tipo = tipo_valor.getTipo();
-            Object valor = tipo_valor.getValor();
-            Date date;
-            Time time;
-            if (valor == null) {
-                retorno = "--";
-            } else if (valor instanceof String) {
-                if (tipo.toLowerCase().contains("date")
-                 || tipo.toLowerCase().contains("timestamp")) {
-                    date = convertir_fecha_y_hora(valor.toString(), ok);
-                    retorno = String.format(k_formato_date, date);
-                } else if (tipo.toLowerCase().contains("time")) {
-                    time = convertir_hora(valor.toString(), ok);
-                    retorno = String.format(k_formato_time, time);
-                } else {
-                    retorno = valor.toString();
-                }
-            } else if (valor instanceof Date valor_date) {
-                retorno = String.format(k_formato_date, valor_date);
-            } else if (valor instanceof Time valor_time) {
-                retorno = String.format(k_formato_time, valor_time);
-            } else if (valor instanceof Integer valor_integer) {
-                retorno = String.format(k_formato_numero, valor_integer);
-            } else if (valor instanceof Long valor_long) {
-                retorno = String.format(k_formato_numero, valor_long);
-            } else if (valor instanceof Double valor_double) {
-                retorno = String.format(k_formato_decimal, valor_double);
-            } else if (valor instanceof Float valor_float) {
-                retorno = String.format(k_formato_decimal, valor_float);
-            } else if (valor instanceof BigDecimal valor_bigdecimal) {
-                if (valor_bigdecimal.remainder(BigDecimal.ONE).multiply(BigDecimal.valueOf(1000)).compareTo(BigDecimal.ZERO) > 0) {
-                    retorno = String.format(k_formato_decimal, valor_bigdecimal);
-                } else {
-                    retorno = String.format(k_formato_numero, valor_bigdecimal.toBigIntegerExact());
-                }
-            } else if (valor instanceof BigInteger valor_biginteger) {
-                retorno = String.format(k_formato_numero, valor_biginteger);
-            } else {
-                retorno = valor.toString();
-            }
-        } catch (Exception e) {
-            ok.setTxt(e);
-        }
-        return retorno;
-    }
-    /**
-     * Convierte una hora según los formatos de k_patrones_formato_fecha y k_patrones_formato_hora (separados por |)
-     * El texto se separa por el espacio en blanco entre la fecha y la hora. Y se convierten por separado
-     * @param texto
-     * @param ok
-     * @param extras_array
-     * @return
-     * @throws Exception 
-     */
-    public Date convertir_fecha_y_hora(String texto, oks ok, Object ... extras_array) throws Exception {
-        Date date;
-        date = patrones.convertir_fecha_y_hora(texto, ok, extras_array);
-        if (ok.es == false) {
-            date = patrones.convertir_fecha(texto, ok, extras_array);
-        }
-        return date;
-    }    
-    /**
-     * Convierte una hora según los formatos de k_patrones_formato_hora (separados por |)
-     * @param texto
-     * @param ok
-     * @param extras_array
-     * @return
-     * @throws Exception 
-     */
-    public Time convertir_hora(String texto, oks ok, Object ... extras_array) throws Exception {
-        Time time;
-        Date date;
-        date = patrones.convertir_hora(texto, ok, extras_array);
-        time = new Time(date.getTime());
-        return time;
     }
 }
