@@ -289,8 +289,8 @@ public class Clab_criptomonedas extends iniciales {
                                 ok.setTxt(tr.in(in, "Cancelado. "));
                                 break;
                             }
-                            BigDecimal bigDecimal = (BigDecimal) paginacion_control_entrada.valor_de_conversion;
-                            Long fila_num = bigDecimal.longValue();
+                            Double doble = (Double) paginacion_control_entrada.valor_de_conversion;
+                            Long fila_num = doble.longValue();
                             fila_num = fila_num - 1;
                             if (fila_num < 0) {
                                 fila_num = 0L;
@@ -333,8 +333,8 @@ public class Clab_criptomonedas extends iniciales {
                                 ok.setTxt(tr.in(in, "Cancelado. "));
                                 break;
                             }
-                            BigDecimal bigDecimal = (BigDecimal) actualizado_control_entrada.valor_de_conversion;
-                            int fila_num = bigDecimal.intValue() - 1; // Quitar la cabecera de la tabla
+                            Double doble = (Double) actualizado_control_entrada.valor_de_conversion;
+                            int fila_num = doble.intValue() - 1; // Quitar la cabecera de la tabla
                             LinkedHashMap<String, Object> columnas_mapa;
                             columnas_mapa = lecturas_lista.get(fila_num);
                             List<Entry<String, Object>> entrys_lista = new LinkedList<>();
@@ -372,8 +372,8 @@ public class Clab_criptomonedas extends iniciales {
                             borrado_clui_formulario.procesar(ok, extras_array);
                             if (ok.es == false) { break; }
                             if (borrado_clui_formulario._es_terminar) {
-                                BigDecimal bigDecimal = (BigDecimal) borrado_control_entrada.valor_de_conversion;
-                                int fila_num = bigDecimal.intValue();
+                                Double doble = (Double) borrado_control_entrada.valor_de_conversion;
+                                int fila_num = doble.intValue();
                                 borrar_fila(fila_num, ok);
                                 if (ok.es == false) { break; }
                                 escribir_linea(tr.in(in, "Fila borrada con éxito. "), ok, extras_array);
