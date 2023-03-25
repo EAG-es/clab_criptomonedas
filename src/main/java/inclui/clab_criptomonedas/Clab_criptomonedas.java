@@ -68,7 +68,7 @@ public class Clab_criptomonedas extends iniciales {
     public static String k_lectura_clave_seleccion = "lectura_clave_seleccion";
     public static String k_paginacion_clave_fila_num = "paginacion_clave_fila_num";
     public static String k_insercion_clave_revisar = "insercion_clave_revisar";
-    public static String k_insercion_clave_enviar = "insercion_clave_envair";
+    public static String k_insercion_clave_enviar = "insercion_clave_enviar";
     public static String k_borrado_clave_fila_num = "borrado_clave_fila_num";
     public static String k_borrado_clave_confirmar = "borrado_clave_confirmar";
     public static String k_columna_cuenta_tex = "cuenta";
