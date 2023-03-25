@@ -13,7 +13,6 @@ import static inclui.formularios.control_selecciones.k_control_selecciones_letra
 import static inclui.formularios.control_selecciones.k_control_selecciones_opciones_mapa;
 import inclui.formularios.control_tablas;
 import static inclui.formularios.control_tablas.k_control_tablas_letras_por_linea_num;
-import static inclui.formularios.control_tablas.k_control_tablas_opciones_mapas_lista;
 import static innui.formularios.controles.k_opciones_mapa_no_requerido;
 import innui.modelos.configuraciones.ResourceBundles;
 import innui.modelos.configuraciones.iniciales;
@@ -34,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import static inclui.formularios.control_tablas.k_control_tablas_opciones_mapa_lista;
 
 /**
  *
@@ -86,8 +86,8 @@ public class Clab_criptomonedas extends iniciales {
     public String insert;
     public String update;
     public String delete;
-    LinkedList<LinkedHashMap<String, Object>> lecturas_lista;
-    LinkedList<LinkedHashMap<String, Object>> lecturas_textos_lista;
+    public LinkedList<LinkedHashMap<String, Object>> lecturas_lista;
+    public LinkedList<LinkedHashMap<String, Object>> lecturas_textos_lista;
     public clui_formularios lectura_clui_formulario = new clui_formularios();
     public cliente_jdbc_servidor_https_spring cliente_jdbc_servidor_https_spring = new cliente_jdbc_servidor_https_spring();
     public control_tablas lectura_control_tabla = new control_tablas();
@@ -120,8 +120,7 @@ public class Clab_criptomonedas extends iniciales {
             return ok.es;
         }        
     };
-    public clui_formularios insercion_clui_formulario = new clui_formularios() {
-        
+    public clui_formularios insercion_clui_formulario = new clui_formularios() {        
         @Override
         public boolean importar_valores(List<Entry<String, Object>> clave_valor_lista, oks ok, Object ... extras_array) throws Exception {
             ResourceBundle in;
@@ -180,7 +179,6 @@ public class Clab_criptomonedas extends iniciales {
             return ok.es;
         }        
     };
-
     /**
      * Inicio de la aplicación
      * @param args 
@@ -256,7 +254,7 @@ public class Clab_criptomonedas extends iniciales {
                         valor_tex = (String) lectura_control_seleccion.leer_seleccion(ok);
                         if (ok.es == false) { break; }
                         switch (valor_tex) {
-                        case "retroceder" -> {
+                        case k_retroceder -> {
                             es_repetir_interno = true;
                             if (fila_inicio_pagina > 0) {
                                 fila_inicio_pagina = fila_inicio_pagina - pagina_tam;
@@ -487,7 +485,6 @@ public class Clab_criptomonedas extends iniciales {
             if (ok.es == false) {
                 escribir_linea(ok.getTxt(), ok, extra_array);
             }
-            escribir_linea(tr.in(in, "mensaje de inicio "), ok, extra_array);
         } catch (Exception e) {
             throw e;
         }
@@ -508,7 +505,7 @@ public class Clab_criptomonedas extends iniciales {
             lectura_control_tabla.iniciar(k_entradas_tipo_numero, ok);
             if (ok.es == false) { return ok.es; }
             Map<String, Object> opciones_mapa = new HashMap<>();
-            opciones_mapa.put(k_control_tablas_opciones_mapas_lista, lectura_control_tabla.crear_tabla_vacia(ok, extra_array));
+            opciones_mapa.put(k_control_tablas_opciones_mapa_lista, lectura_control_tabla.crear_tabla_vacia(ok, extra_array));
             if (ok.es == false) { return ok.es; }
             opciones_mapa.put(k_control_tablas_letras_por_linea_num, Integer.valueOf(letras_por_linea));
             lectura_control_tabla.poner_en_formulario(lectura_clui_formulario, k_lectura_clave_tabla, null, tr.in(in, "Tabla de criptomonedas "), opciones_mapa, ok);
