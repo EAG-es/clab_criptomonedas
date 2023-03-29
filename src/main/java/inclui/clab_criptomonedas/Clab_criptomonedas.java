@@ -341,7 +341,7 @@ public class Clab_criptomonedas extends iniciales {
                             insercion_clui_formulario.procesar(ok, extras_array);
                             if (ok.es == false) { break; }
                             if (insercion_clui_formulario._es_terminar) {                                
-                                entrys_lista = insercion_clui_formulario.exportar_valores(ok, extras_array);
+                                entrys_lista = insercion_clui_formulario.exportar_valores_de_conversion(ok, extras_array);
                                 if (ok.es == false) { break; }
                                 LinkedList<Object> valores_lista = new LinkedList<>();
                                 for (Entry<String, Object> entry : entrys_lista) {
